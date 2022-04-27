@@ -1,0 +1,261 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+% for bold italic matrices and vectors
+\usepackage{bm}
+\def\ma{{\bm{A}}}
+\def\mb{{\bm{B}}}
+\def\mc{{\bm{C}}}
+\def\mx{{\bm{X}}}
+
+\def\R{{\mathbb{R}}}
+\def\I{{\mathbb{I}}}
+
+% shamelessly stolen from https://tex.stackexchange.com/questions/2233/whats-the-best-way-make-an-augmented-coefficient-matrix
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+
+\newcommand\undermat[2]{%
+  \makebox[0pt][l]{$\smash{\underbrace{\phantom{%
+    \begin{matrix}#2\end{matrix}}}_{\text{$#1$}}}$}#2}
+
+
+\title{\LARGE Mathematics for Machine Learning - Solutions\\
+    \Large Chapter 2 - Linear Algebra}
+\author{João Tomás Caldeira}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\textbf{2.1.}
+
+\textbf{a)} We first attempt to show the group properties:
+
+\begin{enumerate}
+    \item Closure
+    
+    For the set $\R \setminus \{-1\}$ to be closed under $\star$, the latter should take two of its elements and yield a number different from -1.
+    
+    Let us assume that we can get -1 from applying the operator to some $a, b \in \R \setminus \{-1\}$. Then,
+    \begin{equation}
+        ab + a + b = -1 \iff ab + a + b + 1 = 0 \iff (a + 1)(b + 1) = 0,
+    \end{equation}
+    
+    so either $a = -1$ or $b = -1$. We have reached a contradiction; recall that we introduced the assumption that $a \neq -1$ and $b \neq -1$. Therefore, $\R \setminus \{-1\}$ is closed under $\star$.
+    
+    \item Associativity
+    
+    \begin{equation}
+    \begin{split}
+        (a \star b) \star c & = (ab + a + b) \star c \\ & =  (ab + a + b)c + (ab + a + b) + c \\ & = a + ab + abc + ac + b + bc + c \\ & = (abc + ab + ac) + (bc + b + c) + a \\ & = a(b \star c) + a + (b \star c) \\ & = a \star (b \star c)
+    \end{split}
+    \end{equation}
+    
+    \item Neutral element
+    
+    $\forall a \in \R \setminus \{-1\}: a \star 0 = a \cdot 0 + a + 0 = a$, and $0 \star a = 0 \cdot a + 0 + a = a$, so 0 is the neutral element of $(\R \setminus \{-1\}, \star)$.
+    
+    \item Inverse element
+    We try to find some $x$ for which $\forall a \in \R \setminus \{-1\}: a \star x = x \star a = 0$. We have
+    \begin{equation}\label{2.1.a.inverse}
+    \begin{split}
+        a \star x = 0 \\ & \iff ax + a + x = 0 \\ & \iff x = -\frac{a}{a + 1}.
+    \end{split}
+    \end{equation}
+    
+    Since $a \neq -1$ necessarily, the solution for equation \ref{2.1.a.inverse} always exists. Thus, $x$ is the inverse element of $(\R \setminus \{-1\}, \star)$. \textit{This concludes proof that $(\R \setminus \{-1\}, \star)$ is a group.}
+    
+    \item Commutativity
+    
+    $\forall a, b \in \R \setminus \{-1\}: a \star b = ab + a + b = ba + b + a = b \star a.$
+    
+    Alternatively, we may observe that $a \star b$ = $b \star a$, by the commutativity of addition and multiplication of real numbers.
+\end{enumerate}
+
+We conclude that $(\R \setminus \{-1\}, \star)$ is an Abelian group.
+
+\textbf{b)} \begin{equation}
+    \begin{split}
+        3 \star x \star x = 15 & \iff (3x + 3 + x) \star x = 15 \\
+        & \iff 3x^2 + 3x + x^2 + 3x + 3 + x + x = 15 \\
+        & \iff 4x^2 + 8x - 12 = 0 \\
+        & \iff x = 1 \vee x = -3
+    \end{split}
+\end{equation}
+
+Therefore, $x \in \{-3, 1\}$.
+
+\textbf{2.2.} HELP.
+
+\textbf{2.3.} Let $\ma, \mb$ be in $\mathcal{G}$ such that
+
+\[
+\ma = \begin{bmatrix}
+    1 & x & z\\
+    0 & 1 & y\\
+    0 & 0 & 1
+\end{bmatrix},\ 
+\mb = \begin{bmatrix}
+    1 & a & c\\
+    0 & 1 & b\\
+    0 & 0 & 1
+\end{bmatrix},\text{ with } x, y, z, a, b, c \in \R
+\]
+
+Then,
+
+\[
+\ma \cdot \mb = \begin{bmatrix}
+    1 & a + x & c + bx + z\\
+    0 & 1 & b + y\\
+    0 & 0 & 1
+\end{bmatrix}
+\]
+
+\begin{enumerate}
+    \item Closure
+    
+    Since $a + x, b + y, c + bx + z \in \R$, then $\ma \cdot \mb \in \mathcal{G}$. Therefore, $\mathcal{G}$ is closed under $\cdot$ (matrix multiplication).
+    
+    \item Associativity
+    
+    Let us ake $\ma, \mb$ as defined above, and let $\mc$ be in $\mathcal{G}$ such that
+    
+    \[
+    \mc = \begin{bmatrix}
+        1 & p & r\\
+        0 & 1 & q\\
+        0 & 0 & 1
+    \end{bmatrix},\text{ with } p, q, r \in \R.
+    \]
+    
+    Then,
+    
+    \begin{equation}
+    \begin{split}
+    (\ma \cdot \mb) \cdot \mc = & \begin{bmatrix}
+        1 & a + x & c + bx + z\\
+        0 & 1 & b + y\\
+        0 & 0 & 1
+    \end{bmatrix}\begin{bmatrix}
+        1 & p & r\\
+        0 & 1 & q\\
+        0 & 0 & 1
+    \end{bmatrix}\\ = & \begin{bmatrix}
+        1 & p + a + x & r + qa + qx + c + bx + z\\
+        0 & 1 & q + b + y\\
+        0 & 0 & 1
+    \end{bmatrix}.
+    \end{split}
+    \end{equation}
+    
+    Similarly, $\ma \cdot (\mb \cdot \mc)$ yields the same result. Therefore, $\cdot$ is associative.
+    
+    \item Neutral element
+    
+    $\I \cdot \ma = \ma = \ma \cdot \I, \forall \ma \in \mathcal{G}.$
+    
+    Therefore, $\I$ is the neutral element.
+    
+    \item Inverse element
+    
+    We need to find the inverse such that
+    
+    \[
+    \ma \cdot \ma^{-1} = \I\text{ (neutral element), and } \ma^{-1} \cdot \ma = \I.
+    \]
+    
+    To find the \textit{right} inverse $\ma_r^{-1}$ of $\ma$, which needs to satisfy $\ma \cdot \ma_r^{-1} = \I$, we solve the linear system $\ma \cdot \mx = \I$. We write the system in augmented notation $[\ma | \I]$ and solve using Gaussian Elimination (G.E.), which yields
+    
+    \[
+    [\ma | \I] \overset{G.E.}{=} \begin{bmatrix}[c c c | c c c]
+        1 & 0 & 0 & 1 & -x & xy - z\\
+        0 & 1 & 0 & 0 & 1 & -y\\
+        0 & 0 & 1 & 0 & 0 & 1
+    \end{bmatrix}\text{, so } \ma_r^{-1} = \begin{bmatrix}
+        1 & -x & xy - z\\
+        0 & 1 & -y\\
+        0 & 0 & 1
+    \end{bmatrix} \in \mathcal{G}.
+    \]
+    
+    Since the inverse element is unique, if there is a left inverse $\ma_l^{-1}$ (i.e., such that $\ma_l^{-1}\ma = \I$), then it is equal to the right inverse $\ma_r^{-1}$. However, since matrix multiplication is not commutative, we need to check that $\ma_r^{-1}\ma = \I$ indeed:
+    
+    \begin{equation}
+    \begin{split}
+    \ma_r^{-1}\ma & = \begin{bmatrix}
+        1 & -x & xy - z\\
+        0 & 1 & -y\\
+        0 & 0 & 1
+    \end{bmatrix} \begin{bmatrix}
+        1 & x & z\\
+        0 & 1 & y\\
+        0 & 0 & 1
+    \end{bmatrix}\\ & = \begin{bmatrix}
+        1 & x - x & z - xy + xy - z\\
+        0 & 1 & y - y\\
+        0 & 0 & 1
+    \end{bmatrix}\\ & = \begin{bmatrix}
+        1 & 0 & 0\\
+        0 & 1 & 0\\
+        0 & 0 & 1
+    \end{bmatrix} = \I.
+    \end{split}
+    \end{equation}
+    
+    Thus, every element of $\mathcal{G}$ has an inverse. \textit{This concludes proof that ($\mathcal{G}$, $\cdot$) is a group.}
+    
+    \item Commutativity
+    
+    We need only find some $\ma, \mb \in \mathcal{G}$ for which $\ma \cdot \mb \neq \mb \cdot \ma$ to show that $\cdot$ is not commutative. Using $\ma, \mb$ as defined above, we have
+    
+    \[
+    \mb \cdot \ma = \begin{bmatrix}
+        1 & x + a & z + ax + c\\
+        0 & 1 & y + b\\
+        0 & 0 & 1
+    \end{bmatrix},
+    \]
+    
+    which differs from $\ma \cdot \mb$ in the element in the position $1, 3$. In particular, e.g., for $A = \begin{bmatrix}
+        1 & 3 & 0\\
+        0 & 1 & 0\\
+        0 & 0 & 1
+    \end{bmatrix}, B = \begin{bmatrix}
+        1 & 1 & 0\\
+        0 & 1 & 0\\
+        0 & 0 & 1
+    \end{bmatrix}$, we have
+    
+    \[
+    \ma \cdot \mb = \begin{bmatrix}
+        1 & 4 & 0\\
+        0 & 1 & 0\\
+        0 & 0 & 1
+    \end{bmatrix} \neq \mb \cdot \ma = \begin{bmatrix}
+        1 & 4 & 3\\
+        0 & 1 & 0\\
+        0 & 0 & 1
+    \end{bmatrix}
+    \]
+    
+    Therefore, $\cdot$ is not commutative, and thus $(\mathcal{G}, \cdot)$ is a non-Abelian group.
+\end{enumerate}
+
+\textbf{2.4.}
+
+\textbf{a)}
+
+IN PROGRESS...
+
+\end{document}
