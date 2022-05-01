@@ -14,6 +14,8 @@
 \def\R{{\mathbb{R}}}
 \def\I{{\mathbb{I}}}
 
+\newcommand{\matr}[1]{\bm{#1}}
+
 % shamelessly stolen from https://tex.stackexchange.com/questions/2233/whats-the-best-way-make-an-augmented-coefficient-matrix
 \makeatletter
 \renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
@@ -254,8 +256,218 @@ Then,
 
 \textbf{2.4.}
 
+\textbf{a)} The matrices have dimensions $(3 \times 2)$ and $(3 \times 3)$, respectively. Therefore, the matrix product is not defined for these two matrices.
+
+\textbf{b)}
+
+\[
+\begin{bmatrix}
+    1 & 2 & 3\\
+    4 & 5 & 6\\
+    7 & 8 & 9
+\end{bmatrix}
+\begin{bmatrix}
+    1 & 1 & 0\\
+    0 & 1 & 1\\
+    1 & 0 & 1
+\end{bmatrix} = \begin{bmatrix}
+    4 & 3 & 5\\
+    10 & 9 & 11\\
+    16 & 15 & 17
+\end{bmatrix}
+\]
+
+\textbf{c)}
+
+\[
+\begin{bmatrix}
+    1 & 1 & 0\\
+    0 & 1 & 1\\
+    1 & 0 & 1
+\end{bmatrix}
+\begin{bmatrix}
+    1 & 2 & 3\\
+    4 & 5 & 6\\
+    7 & 8 & 9
+\end{bmatrix} = \begin{bmatrix}
+    5 & 7 & 9\\
+    11 & 13 & 15\\
+    8 & 10 & 12
+\end{bmatrix}
+\]
+
+\textbf{d)}
+
+\[
+\begin{bmatrix}
+    1 & 2 & 1 & 2\\
+    4 & 1 & -1 & -4
+\end{bmatrix}
+\begin{bmatrix}
+    0 & 2\\
+    1 & -1\\
+    2 & 1\\
+    5 & 2
+\end{bmatrix} = \begin{bmatrix}
+    14 & 6\\
+    -21 & 2
+\end{bmatrix}
+\]
+
+\textbf{e)}
+
+\[
+\begin{bmatrix}
+    0 & 3\\
+    1 & -1\\
+    2 & 1\\
+    5 & 2
+\end{bmatrix}
+\begin{bmatrix}
+    1 & 2 & 1 & 2\\
+    4 & 1 & -1 & 4
+\end{bmatrix} = \begin{bmatrix}
+    12 & 3 & -3 & -12\\
+    -3 & 1 & 2 & 6\\
+    6 & 5 & 1 & 0\\
+    13 & 12 & 3 & 2
+\end{bmatrix}
+\]
+
+\textbf{2.5.} For each of the systems of linear equations, we start by writing them in augmented matrix notation and perform Gaussian Elimination to obtain reduced row-echelon form.
+
 \textbf{a)}
 
-IN PROGRESS...
+\[
+\begin{bmatrix}[c c c c | c]
+    1 & 1 & -1 & -1 & 1\\
+    2 & 5 & -7 & -5 & -2\\
+    2 & -1 & 1 & 3 & 4\\
+    5 & 2 & -4 & 2 & 6
+\end{bmatrix} \rightarrow \begin{bmatrix}[c c c c | c]
+    1 & 1 & -1 & -1 & 1\\
+    0 & 3 & -5 & -3 & -4\\
+    0 & 0 & -2 & 2 & -2\\
+    0 & 0 & 0 & 0 & 1
+\end{bmatrix}
+\]
+
+We can see from the last row that the equation system is inconsistent and thus has no solution. Therefore, $S = \emptyset$.
+
+\textbf{b)}
+
+\[
+\begin{bmatrix}[c c c c c | c]
+    1 & -1 & 0 & 0 & 1 & 3\\
+    1 & 1 & 0 & -3 & 0 & 6\\
+    2 & -1 & 0 & 1 & -1 & 5\\
+    -1 & 2 & 0 & -2 & -1 & -1
+\end{bmatrix} \rightarrow \begin{bmatrix}[c c c c c | c]
+    1 & 0 & 0 & 0 & -1 & 3\\
+    0 & 0 & 0 & 1 & -1 & -1\\
+    0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0 & -2 & 0
+\end{bmatrix}
+\]
+
+The third row is a tautology, and therefore redundant in the system. We remove it, rearrange the rows, and apply the "minus 1 trick":
+
+\[
+\begin{bmatrix}[c c c c c | c]
+    1 & 0 & 0 & 0 & -1 & 3\\
+    0 & 1 & 0 & 0 & -2 & 0\\
+    0 & 0 & -1 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & -1 & -1\\
+    0 & 0 & 0 & 0 & -1 & 0
+\end{bmatrix}
+\]
+
+The right-hand side of the system is a particular solution, while the two columns with -1 on the diagonal show the directions of the solution space. The solution set is thus
+
+\[
+S = \left\{\matr{x} \in \R^5: \matr{x} = \begin{bmatrix}
+    3\\0\\0\\-1\\0
+\end{bmatrix} + \lambda_1\begin{bmatrix}
+    0\\0\\-1\\0\\0
+\end{bmatrix} + \lambda_2\begin{bmatrix}
+    3\\0\\0\\-1\\0
+\end{bmatrix}, \lambda_1, \lambda_2 \in \R\right\}
+\]
+
+\textbf{2.6.}
+
+We start by writing the system of linear equations in augmented matrix form and apply Gaussian Elimination to obtain reduced row-echelon form:
+
+\[
+\begin{bmatrix}[c c c c c c | c]
+    0 & 1 & 0 & 0 & 1 & 0 & 2\\
+    0 & 0 & 0 & 1 & 1 & 0 & -1\\
+    0 & 1 & 0 & 0 & 0 & 1 & 1
+\end{bmatrix} \rightarrow
+\begin{bmatrix}[c c c c c c | c]
+    0 & 1 & 0 & 0 & 0 & 1 & 1\\
+    0 & 0 & 0 & 1 & 0 & 1 & -2\\
+    0 & 0 & 0 & 0 & 1 & -1 & 1
+\end{bmatrix}
+\]
+
+Applying the "minus 1 trick", we get
+
+\[
+\begin{bmatrix}[c c c c c c | c]
+    -1 & 0 & 0 & 0 & 0 & 0 & 0\\
+    0 & 1 & 0 & 0 & 0 & 1 & 1\\
+    0 & 0 & -1 & 0 & 0 & 0 & 0\\
+    0 & 0 & 0 & 1 & 0 & 1 & -2\\
+    0 & 0 & 0 & 0 & 1 & -1 & 1\\
+    0 & 0 & 0 & 0 & 0 & -1 & 0
+\end{bmatrix}
+\]
+
+The right-hand side of the system is a particular solution, while the three columns with -1 on the diagonal show the directions of - and thys span - the solution space. The solution set is then
+
+\[
+S = \left\{\matr{x} \in \R^6: \matr{x} = \begin{bmatrix}
+    0\\1\\0\\-2\\1\\0
+\end{bmatrix} + \lambda_1\begin{bmatrix}
+    -1\\0\\0\\0\\0\\0
+\end{bmatrix} + \lambda_2\begin{bmatrix}
+    0\\0\\-1\\0\\0\\0
+\end{bmatrix} + \lambda_3\begin{bmatrix}
+    0\\1\\0\\1\\-1\\-1
+\end{bmatrix}, \lambda_1, \lambda_2, \lambda_3 \in \R\right\}.
+\]
+
+\textbf{2.7.} We have $\ma\matr{x} = 12\matr{x} \iff \ma\matr{x} - 12\matr{x} = \matr{0} \iff (\ma - 12\I)\matr{x} = \matr{0}$. Writing this system of linear equations in augmented form, we have
+
+\[
+\begin{bmatrix}[c c c | c]
+    -6 & 4 & 3 & 0\\
+    6 & -12 & 9 & 0\\
+    0 & 8 & -12 & 0
+\end{bmatrix}
+\]
+
+We can also write the constraint $\sum_{i = 1}^3 x_i = 1 \iff x_1 + x_2 + x_3 = 1$ as another row (equation) in the above matrix, which we also solve to reduced row-echelon form:
+
+\[
+\begin{bmatrix}[c c c | c]
+    -6 & 4 & 3 & 0\\
+    6 & -12 & 9 & 0\\
+    0 & 8 & -12 & 0\\
+    1 & 1 & 1 & 1
+\end{bmatrix} \rightarrow
+\begin{bmatrix}[c c c | c]
+    1 & 0 & 0 & 3\\
+    0 & 1 & 0 & 3\\
+    0 & 0 & 1 & 2
+\end{bmatrix}
+\]
+
+Therefore, we have a unique solution $\begin{bmatrix}
+    3 & 3 & 2
+\end{bmatrix}^\top$.
+
+\textbf{2.8.} IN PROGRESS...
 
 \end{document}
